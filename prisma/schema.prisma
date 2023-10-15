@@ -1,0 +1,27 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model records{
+  id Int @id @default(autoincrement())
+  heart_rate Float 
+  body_temperature Float
+  patient patients @relation(fields: [patient_id],references: [patient_id])
+  patient_id Int
+}
+
+model patients{
+  patient_id Int @id @default(autoincrement())
+  patient_name String
+  patient_nid String
+  patient_frequent_sickness String
+  records records[] 
+}
