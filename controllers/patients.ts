@@ -8,7 +8,8 @@ export const getPatients = async (req: Request, res: Response) => {
     res.status(error.status).send({ message: "Failed", data: null });
   }
 };
-export const create = async (req: Request, res: Response) => {
+export const createPatient = async (req: Request, res: Response) => {
+  console.log('creating patient...');
   const { patient_nid, patient_frequent_sickness, patient_name } = req.body;
   try {
     let newPatient = await prismaClient.patients.create({
@@ -27,3 +28,21 @@ export const create = async (req: Request, res: Response) => {
     res.status(error.status).send({ message: "Failed", data: null });
   }
 };
+
+export const deletePatient = async (req:Request, res:Response) => {
+  try {
+    let id = req.params.id;
+    if (!id) throw new Error("Invalid id");
+     
+    await prismaClient.patients.delete({
+      where:{
+      patient_id:Number(id),
+      }
+    })
+    res
+        .status(200)
+        .send({ message: "deleted patient successfully", data: null });
+  } catch (error:any) {
+    res.status(error.status).send({ data: null, message: error.message });
+  }
+}

@@ -1,10 +1,11 @@
 import { Router } from "express";
-import { create, getRecords } from "../controllers/records";
+import { create, deleteRecord, getRecords } from "../controllers/records";
 
 const recordsRouter = Router();
 
 recordsRouter
 .get("/", getRecords)
-.post("/",create);
+.post("/",create)
+.delete("/:id",deleteRecord);
 
 export default recordsRouter;
