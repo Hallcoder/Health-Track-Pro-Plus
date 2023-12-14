@@ -2,7 +2,9 @@ import { Request, Response } from "express";
 import prismaClient from "../constants";
 export const getPatients = async (req: Request, res: Response) => {
   try {
-    let patients = await prismaClient.patients.findMany();
+    let patients = await prismaClient.patients.findMany({include:{
+      records:true
+    }});
     res.status(200).send({ message: "There you go!", data: patients });
   } catch (error: any) {
     res.status(error.status).send({ message: "Failed", data: null });
